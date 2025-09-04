@@ -116,7 +116,7 @@ export function ClarityCheckIn({ onSubmit }: { onSubmit: (before: number, after:
 
   if (!showAfter) {
     return (
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+      <div className="bg-white-50 border border-pink-200 rounded-lg p-4 mb-4">
         <h4 className="font-medium mb-3">Quick Clarity Check</h4>
         <p className="text-sm text-gray-700 mb-3">Before you start writing, how clear do you feel about your thoughts and feelings?</p>
         
@@ -127,6 +127,7 @@ export function ClarityCheckIn({ onSubmit }: { onSubmit: (before: number, after:
             min="1"
             max="5"
             value={beforeClarity}
+            color="pink"
             onChange={(e) => setBeforeClarity(Number(e.target.value))}
             className="flex-1"
           />
@@ -135,7 +136,7 @@ export function ClarityCheckIn({ onSubmit }: { onSubmit: (before: number, after:
         
         <button
           onClick={handleBeforeSubmit}
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          className="w-full px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600"
         >
           Start Writing ({beforeClarity}/5)
         </button>
@@ -170,7 +171,7 @@ export function ClarityCheckIn({ onSubmit }: { onSubmit: (before: number, after:
       
       <button
         onClick={handleAfterSubmit}
-        className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+        className="w-full px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-green-600"
       >
         Complete Clarity Check ({afterClarity}/5)
       </button>
