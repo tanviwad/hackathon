@@ -4,12 +4,16 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useJournal } from './store'
 import type { JournalEntry } from './types'
 import { analyzeSentiment, extractThemes, generateDynamicPrompts, generateWeeklyInsights } from './utils/nlp'
+import { detectAnxietyPatterns } from './utils/anxietyDetection'
+import { AnxietySupportCard } from './components/AnxietySupport'
+import { ClarityVisualization, ClarityCheckIn } from './components/ClarityTracking'
 
 export default function App() {
   const { entries, addEntry, deleteEntry } = useJournal()
   const [inputValue, setInputValue] = useState('')
   const [selectedMood, setSelectedMood] = useState<JournalEntry['mood']>()
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0)
+  const [showClarityCheck, setShowClarityCheck] = useState(false)
 
   const moods = [
     { key: 'very-bad' as const, label: 'Struggling', emoji: '😞', color: 'red' },
@@ -22,14 +26,13 @@ export default function App() {
   const dynamicPrompts = useMemo(() => generateDynamicPrompts(entries), [entries])
   const themes = useMemo(() => extractThemes(entries), [entries])
   const weeklyInsights = useMemo(() => generateWeeklyInsights(entries), [entries])
+  const anxietyInsight = useMemo(() => detectAnxietyPatterns(entries), [entries])
 
   // Sentiment analysis data for chart
   const sentimentData = useMemo(() => {
     if (entries.length === 0) return []
     
-    // Get the most recent 14 entries and create stable chart data
     const recentEntries = entries.slice(0, 14)
-    
     return recentEntries
       .map((entry, index) => ({
         day: `Day ${index + 1}`,
@@ -37,22 +40,25 @@ export default function App() {
         date: new Date(entry.createdAt).toLocaleDateString(),
         entryId: entry.id
       }))
-      .reverse() // Reverse so oldest is on left, newest on right
-  }, [
-    entries.length, 
-    entries.slice(0, 14).map(e => `${e.id}-${e.content.slice(0, 50)}`).join('|')
-  ]) // Only recalculate when entries actually change content
+      .reverse()
+  }, [entries.length, entries.slice(0, 14).map(e => e.id).join(',')])
 
   const saveEntry = () => {
     if (inputValue.trim()) {
       addEntry(inputValue.trim(), selectedMood)
       setInputValue('')
       setSelectedMood(undefined)
+      setShowClarityCheck(false)
     }
   }
 
   const nextPrompt = () => {
     setCurrentPromptIndex((prev) => (prev + 1) % dynamicPrompts.length)
+  }
+
+  const handleClaritySubmit = (before: number, after: number) => {
+    console.log('Clarity improvement:', after - before)
+    // You could store this data in your journal entry or separately
   }
 
   const currentPrompt = dynamicPrompts[currentPromptIndex] || "What's on your mind today?"
@@ -78,6 +84,16 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Writing Area */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Anxiety Support */}
+            {anxietyInsight && (
+              <AnxietySupportCard insight={anxietyInsight} />
+            )}
+
+            {/* Clarity Check-in */}
+            {showClarityCheck && (
+              <ClarityCheckIn onSubmit={handleClaritySubmit} />
+            )}
+
             {/* Dynamic Prompt */}
             <div className="bg-white rounded-2xl border border-pink-100 p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
@@ -138,9 +154,17 @@ export default function App() {
                   }}
                 />
                 <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500">
-                    Press Cmd/Ctrl + Enter to save quickly
-                  </p>
+                  <div className="flex items-center gap-4">
+                    <p className="text-xs text-gray-500">
+                      Press Cmd/Ctrl + Enter to save quickly
+                    </p>
+                    <button
+                      onClick={() => setShowClarityCheck(!showClarityCheck)}
+                      className="text-xs text-pink-500 hover:text-pink-700"
+                    >
+                      {showClarityCheck ? 'Hide' : 'Track'} Clarity
+                    </button>
+                  </div>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-gray-500">
                       {inputValue.length} characters
@@ -211,6 +235,9 @@ export default function App() {
                 {weeklyInsights}
               </p>
             </div>
+
+            {/* Clarity Visualization */}
+            <ClarityVisualization entries={entries} />
 
             {/* Sentiment Trend */}
             {sentimentData.length > 0 && (
