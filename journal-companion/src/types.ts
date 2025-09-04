@@ -4,10 +4,16 @@ export interface JournalEntry {
   content: string
   mood?: 'very-bad' | 'bad' | 'neutral' | 'good' | 'great'
   tags?: string[]
+  sentiment?: number
+  themes?: string[]
 }
 
 export interface JournalState {
   entries: JournalEntry[]
 }
 
-
+export interface Theme {
+  term: string
+  count: number
+  sentiment: number
+}

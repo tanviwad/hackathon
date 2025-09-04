@@ -66,4 +66,6 @@ export default tseslint.config([
     },
   },
 ])
+
 ```
+FN + 12 to access local database, Storage --> Local Storage --> Entries
