@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Send, TrendingUp, Brain, Calendar, Lightbulb, Heart, BarChart3, Sparkles } from 'lucide-react'
+import { Send, TrendingUp, Brain, Calendar, Lightbulb, Heart, BarChart3, Sparkles, Database } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { useJournal } from './store'
 import type { JournalEntry } from './types'
@@ -7,9 +7,10 @@ import { analyzeSentiment, extractThemes, generateDynamicPrompts, generateWeekly
 import { detectAnxietyPatterns } from './utils/anxietyDetection'
 import { AnxietySupportCard } from './components/AnxietySupport'
 import { ClarityVisualization, ClarityCheckIn } from './components/ClarityTracking'
+import { DEMO_ENTRIES } from './utils/demoData'
 
 export default function App() {
-  const { entries, addEntry, deleteEntry } = useJournal()
+  const { entries, addEntry, deleteEntry, loadDemoData } = useJournal()
   const [inputValue, setInputValue] = useState('')
   const [selectedMood, setSelectedMood] = useState<JournalEntry['mood']>()
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0)
@@ -21,6 +22,8 @@ export default function App() {
     { key: 'neutral' as const, label: 'Okay', emoji: '😐', color: 'gray' },
     { key: 'good' as const, label: 'Good', emoji: '🙂', color: 'green' },
     { key: 'great' as const, label: 'Great', emoji: '😊', color: 'emerald' },
+    { key: 'anxious' as const, label: 'Anxious', emoji: '😰', color: 'yellow' },
+    { key: 'peaceful' as const, label: 'Peaceful', emoji: '😌', color: 'blue' },
   ]
 
   const dynamicPrompts = useMemo(() => generateDynamicPrompts(entries), [entries])
@@ -79,6 +82,19 @@ export default function App() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Your private, empathetic companion for meaningful self-reflection and personal growth
           </p>
+          {/* Demo Data Loader - Only show when no entries */}
+          {entries.length === 0 && (
+            <div className="mt-4">
+              <button
+                onClick={() => loadDemoData(DEMO_ENTRIES)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-700 rounded-lg transition-colors text-sm border border-pink-200"
+              >
+                <Database className="h-4 w-4" />
+                Load Demo Data (3 weeks of entries)
+              </button>
+              <p className="text-xs text-gray-500 mt-1">Try the app with sample journal entries to see clarity tracking in action</p>
+            </div>
+          )}
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

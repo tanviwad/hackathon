@@ -3,22 +3,25 @@ import type { JournalEntry, Theme } from '../types'
 // Emotion and life theme categories
 const EMOTION_THEMES = {
   // Positive emotions
-  'joy': ['happy', 'joyful', 'cheerful', 'delighted', 'elated', 'euphoric', 'blissful', 'ecstatic'],
-  'gratitude': ['grateful', 'thankful', 'blessed', 'appreciative', 'fortunate'],
-  'confidence': ['confident', 'proud', 'accomplished', 'successful', 'capable', 'strong'],
-  'calm': ['peaceful', 'relaxed', 'serene', 'tranquil', 'centered', 'balanced', 'zen'],
-  'excitement': ['excited', 'thrilled', 'enthusiastic', 'energized', 'pumped', 'eager'],
-  'love': ['love', 'loving', 'affection', 'warmth', 'connection', 'bond', 'caring'],
-  'hope': ['hopeful', 'optimistic', 'positive', 'bright', 'promising', 'encouraging'],
+  'joy': ['happy', 'joyful', 'cheerful', 'delighted', 'elated', 'euphoric', 'blissful', 'ecstatic', 'gleeful', 'jubilant'],
+  'gratitude': ['grateful', 'thankful', 'blessed', 'appreciative', 'fortunate', 'touched', 'moved'],
+  'confidence': ['confident', 'proud', 'accomplished', 'successful', 'capable', 'strong', 'empowered', 'self-assured'],
+  'calm': ['peaceful', 'relaxed', 'serene', 'tranquil', 'centered', 'balanced', 'zen', 'composed', 'steady'],
+  'excitement': ['excited', 'thrilled', 'enthusiastic', 'energized', 'pumped', 'eager', 'animated', 'exhilarated'],
+  'love': ['love', 'loving', 'affection', 'warmth', 'connection', 'bond', 'caring', 'adoration', 'tenderness'],
+  'hope': ['hopeful', 'optimistic', 'positive', 'bright', 'promising', 'encouraging', 'uplifting', 'inspiring'],
+  'contentment': ['content', 'satisfied', 'fulfilled', 'pleased', 'comfortable', 'at-peace'],
 
   // Challenging emotions
-  'stress': ['stressed', 'pressure', 'overwhelmed', 'burden', 'tension', 'strain'],
-  'anxiety': ['anxious', 'worried', 'nervous', 'apprehensive', 'fearful', 'panic', 'uneasy'],
-  'sadness': ['sad', 'depressed', 'down', 'blue', 'melancholy', 'grief', 'sorrow'],
-  'anger': ['angry', 'frustrated', 'irritated', 'annoyed', 'mad', 'furious', 'rage'],
-  'loneliness': ['lonely', 'isolated', 'alone', 'disconnected', 'solitary'],
-  'fatigue': ['tired', 'exhausted', 'drained', 'weary', 'burnt', 'depleted'],
-  'confusion': ['confused', 'uncertain', 'lost', 'unclear', 'puzzled', 'bewildered'],
+  'stress': ['stressed', 'pressure', 'overwhelmed', 'burden', 'tension', 'strain', 'frazzled', 'swamped'],
+  'anxiety': ['anxious', 'worried', 'nervous', 'apprehensive', 'fearful', 'panic', 'uneasy', 'restless', 'on-edge'],
+  'sadness': ['sad', 'depressed', 'down', 'blue', 'melancholy', 'grief', 'sorrow', 'heartbroken', 'dejected', 'despondent'],
+  'anger': ['angry', 'frustrated', 'irritated', 'annoyed', 'mad', 'furious', 'rage', 'livid', 'resentful', 'indignant'],
+  'loneliness': ['lonely', 'isolated', 'alone', 'disconnected', 'solitary', 'abandoned', 'rejected'],
+  'fatigue': ['tired', 'exhausted', 'drained', 'weary', 'burnt', 'depleted', 'worn-out', 'fatigued'],
+  'confusion': ['confused', 'uncertain', 'lost', 'unclear', 'puzzled', 'bewildered', 'perplexed', 'disoriented'],
+  'disappointment': ['disappointed', 'let-down', 'disillusioned', 'discouraged', 'deflated'],
+  'guilt': ['guilty', 'ashamed', 'regretful', 'remorseful', 'self-blame'],
 
   // Life areas
   'work': ['work', 'job', 'career', 'office', 'meeting', 'project', 'deadline', 'boss', 'colleague', 'client'],
@@ -32,16 +35,30 @@ const EMOTION_THEMES = {
   'nature': ['nature', 'outside', 'park', 'trees', 'flowers', 'beach', 'mountains', 'sun', 'weather']
 }
 
-// Words to always exclude from themes
+// Words to always exclude from themes (generic/common words)
 const EXCLUDED_WORDS = new Set([
-  'today', 'yesterday', 'tomorrow', 'day', 'week', 'month', 'year', 'time',
-  'thing', 'things', 'stuff', 'way', 'ways', 'lot', 'lots', 'bit', 'little',
-  'big', 'small', 'new', 'old', 'good', 'bad', 'nice', 'great', 'awesome',
-  'really', 'very', 'quite', 'pretty', 'kind', 'sort', 'type', 'part',
-  'place', 'people', 'person', 'guy', 'girl', 'man', 'woman',
-  'make', 'made', 'get', 'got', 'go', 'went', 'come', 'came', 'see', 'saw',
-  'know', 'think', 'feel', 'want', 'need', 'like', 'love', 'hate',
-  'said', 'say', 'tell', 'told', 'talk', 'talked', 'ask', 'asked'
+  // Time words
+  'today', 'yesterday', 'tomorrow', 'day', 'week', 'month', 'year', 'time', 'morning', 'evening', 'night',
+  // Generic descriptors
+  'thing', 'things', 'stuff', 'way', 'ways', 'lot', 'lots', 'bit', 'little', 'much',
+  'big', 'small', 'new', 'old', 'nice', 'awesome', 'amazing', 'incredible',
+  'really', 'very', 'quite', 'pretty', 'kind', 'sort', 'type', 'part', 'whole',
+  // Places and people (too generic)
+  'place', 'people', 'person', 'guy', 'girl', 'man', 'woman', 'everyone', 'someone',
+  // Common actions
+  'make', 'made', 'get', 'got', 'go', 'went', 'come', 'came', 'see', 'saw', 'look', 'looked',
+  'know', 'think', 'want', 'need', 'like', 'hate', 'give', 'take', 'find', 'found',
+  'said', 'say', 'tell', 'told', 'talk', 'talked', 'ask', 'asked', 'call', 'called',
+  // Generic emotional words (we want specific emotions from EMOTION_THEMES instead)
+  'feel', 'feeling', 'feelings', 'emotion', 'emotions', 'mood', 'moods',
+  'good', 'bad', 'okay', 'fine', 'well', 'better', 'worse', 'best', 'worst',
+  // Greetings and common expressions
+  'hello', 'hi', 'hey', 'thanks', 'thank', 'please', 'sorry', 'excuse',
+  // Articles, pronouns, conjunctions (should already be in STOPWORDS but adding for safety)
+  'this', 'that', 'these', 'those', 'here', 'there', 'where', 'when', 'what', 'how', 'why',
+  'something', 'anything', 'everything', 'nothing', 'somewhere', 'anywhere', 'everywhere',
+  // Filler words
+  'just', 'only', 'still', 'even', 'also', 'maybe', 'probably', 'definitely', 'certainly'
 ])
 
 const STOPWORDS = new Set([
@@ -127,13 +144,24 @@ export function extractThemes(entries: JournalEntry[]): Theme[] {
       }
     })
 
-    // Also look for other meaningful words (but filter out common ones)
+    // Look for other meaningful life-area words (but be very selective)
     words.forEach(word => {
+      // Only include words that are likely to be meaningful life areas or activities
+      const isMeaningfulWord = (
+        // Life areas from EMOTION_THEMES
+        ['work', 'family', 'health', 'exercise', 'creative', 'learning', 'travel', 'home', 'finance', 'nature'].includes(word) ||
+        // Common meaningful activities/concepts
+        ['job', 'career', 'workout', 'gym', 'project', 'meeting', 'deadline', 'friend', 'friends', 
+         'relationship', 'partner', 'spouse', 'parent', 'parents', 'brother', 'sister',
+         'school', 'study', 'book', 'movie', 'music', 'art', 'cooking', 'vacation', 'trip'].includes(word)
+      )
+      
       if (
         !STOPWORDS.has(word) && 
         !EXCLUDED_WORDS.has(word) &&
         word.length >= 4 &&
-        !Object.values(EMOTION_THEMES).flat().includes(word) // Don't double count
+        !Object.values(EMOTION_THEMES).flat().includes(word) && // Don't double count emotion keywords
+        isMeaningfulWord // Only include words we specifically identify as meaningful
       ) {
         if (!themeScores.has(word)) {
           themeScores.set(word, { count: 0, sentiments: [] })
@@ -157,18 +185,25 @@ export function extractThemes(entries: JournalEntry[]): Theme[] {
         ? data.sentiments.reduce((a, b) => a + b, 0) / data.sentiments.length 
         : 0
     }))
-    .filter(theme => theme.count >= 2) // Only show themes that appear at least twice
+    .filter(theme => {
+      // For emotions: show if appears at least once
+      // For life areas: show if appears at least twice
+      const isEmotion = Object.keys(EMOTION_THEMES).includes(theme.term)
+      return isEmotion ? theme.count >= 1 : theme.count >= 2
+    })
     .sort((a, b) => {
-      // Prioritize emotion themes, then by count
+      // Heavily prioritize emotion themes
       const aIsEmotion = Object.keys(EMOTION_THEMES).includes(a.term)
       const bIsEmotion = Object.keys(EMOTION_THEMES).includes(b.term)
       
+      // If one is emotion and other isn't, emotion wins
       if (aIsEmotion && !bIsEmotion) return -1
       if (!aIsEmotion && bIsEmotion) return 1
       
+      // If both are emotions OR both are life areas, sort by count
       return b.count - a.count
     })
-    .slice(0, 8)
+    .slice(0, 6) // Reduce to 6 themes to focus on most important
 
   return themes
 }

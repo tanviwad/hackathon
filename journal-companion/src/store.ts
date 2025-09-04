@@ -7,6 +7,7 @@ interface Actions {
   updateEntry: (id: string, updates: Partial<JournalEntry>) => void
   deleteEntry: (id: string) => void
   clearAll: () => void
+  loadDemoData: (demoEntries: JournalEntry[]) => void
 }
 
 export const useJournal = create<JournalState & Actions>()(
@@ -24,6 +25,7 @@ export const useJournal = create<JournalState & Actions>()(
         set((s) => ({ entries: s.entries.map((e) => (e.id === id ? { ...e, ...updates } : e)) })),
       deleteEntry: (id) => set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),
       clearAll: () => set({ entries: [] }),
+      loadDemoData: (demoEntries) => set({ entries: demoEntries }),
     }),
     { name: 'journal-companion' },
   ),

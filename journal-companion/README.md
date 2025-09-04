@@ -1,71 +1,164 @@
-# React + TypeScript + Vite
+# 🌸 AI Journaling Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> *Your private, empathetic companion for meaningful self-reflection and personal growth*
 
-Currently, two official plugins are available:
+An intelligent journaling application that helps users track their emotional well-being through AI-powered insights, clarity tracking, and personalized reflection prompts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![AI Journaling Companion](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=flat-square&logo=typescript) ![Vite](https://img.shields.io/badge/Vite-7.1.2-646CFF?style=flat-square&logo=vite)
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🧠 **Intelligent Analysis**
+- **Sentiment Analysis**: Real-time emotional tone detection
+- **Theme Extraction**: Identifies key emotions and life areas from your writing
+- **Anxiety Pattern Detection**: Recognizes stress indicators and provides supportive resources
+- **Dynamic Prompts**: Personalized writing prompts based on your recent entries
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 📊 **Clarity Tracking**
+- **Daily Clarity Metrics**: Track how journaling improves your mental clarity
+- **Before/After Assessment**: Measure clarity improvements from writing
+- **Visual Progress Charts**: Beautiful pink-themed visualizations of your clarity journey
+- **Multi-day Insights**: Understand patterns across weeks and months
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 🎨 **Beautiful Design**
+- **Pink Gradient Theme**: Warm, calming color palette
+- **Responsive Layout**: Works seamlessly on desktop and mobile
+- **Smooth Animations**: Delightful interactions and transitions
+- **Accessibility Focused**: WCAG compliant design patterns
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🔒 **Privacy First**
+- **Local Storage**: All data stays on your device
+- **No Account Required**: Start journaling immediately
+- **Secure**: No data transmission to external servers
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd journal-companion
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Demo Mode
+When you first open the app, click **"Load Demo Data"** to see the app in action with 3 weeks of realistic journal entries.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Tech Stack
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Frontend**: React 19.1.1 + TypeScript 5.8.3
+- **Build Tool**: Vite 7.1.2
+- **Styling**: Tailwind CSS 4.1.12
+- **Charts**: Recharts 3.1.2
+- **State Management**: Zustand 5.0.8
+- **Form Handling**: React Hook Form 7.62.0
+- **Validation**: Zod 4.1.5
+- **Icons**: Lucide React 0.542.0
+
+## 📁 Project Structure
 
 ```
-FN + 12 to access local database, Storage --> Local Storage --> Entries
+src/
+├── components/          # React components
+│   ├── AnxietySupport.tsx    # Anxiety detection & support
+│   └── ClarityTracking.tsx   # Clarity measurement & visualization
+├── utils/              # Utility functions
+│   ├── nlp.ts               # Natural language processing
+│   ├── anxietyDetection.ts  # Anxiety pattern recognition
+│   ├── clarityTracking.ts   # Mental clarity algorithms
+│   └── demoData.ts          # Sample data for demos
+├── store.ts            # Zustand state management
+├── types.ts            # TypeScript type definitions
+└── App.tsx             # Main application component
+```
+
+## 🎯 Key Algorithms
+
+### Sentiment Analysis
+- Analyzes emotional tone using curated word lists
+- Returns sentiment scores from -1 (negative) to +1 (positive)
+- Considers context and emotional nuance
+
+### Theme Extraction
+- Identifies emotional themes (joy, stress, gratitude, etc.)
+- Recognizes life areas (work, relationships, health)
+- Filters out generic words to focus on meaningful content
+
+### Clarity Tracking
+- Measures confusion vs. clarity indicators in text
+- Tracks before/after writing emotional states
+- Calculates improvement scores and patterns
+
+## 🎨 Design Philosophy
+
+- **Empathetic**: Warm, supportive language and interactions
+- **Non-judgmental**: Celebrating all emotions as valid
+- **Growth-focused**: Emphasizing progress and self-discovery
+- **Accessible**: Clear typography, good contrast, intuitive navigation
+
+## 📱 Usage Guide
+
+1. **Start Writing**: Use the dynamic prompts or write freely
+2. **Select Mood**: Choose your current emotional state
+3. **Track Clarity**: Use the optional clarity check-in feature
+4. **Review Insights**: Explore your emotional patterns and themes
+5. **Monitor Progress**: Watch your clarity improvements over time
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Development server
+npm run dev
+
+# Type checking
+npm run build
+
+# Linting
+npm run lint
+
+# Preview production build
+npm run preview
+```
+
+### Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 🎭 Demo Features
+
+- **3 Weeks of Sample Data**: Realistic entries spanning work, gym, family time
+- **Mixed Emotions**: Shows the full spectrum of human experience
+- **Clarity Progression**: Demonstrates how journaling improves mental clarity
+- **Theme Evolution**: Watch how emotional patterns change over time
+
+## 🌟 Future Roadmap
+
+- [ ] Export/import functionality
+- [ ] Goal setting and tracking
+- [ ] Meditation and mindfulness integration
+- [ ] Mood correlation insights
+- [ ] Custom theme creation
+- [ ] Voice-to-text journaling
+
+## 📄 License
+
+MIT License - see LICENSE file for details
+
+---
+
+*Built with ❤️ for mental wellness and self-reflection*
