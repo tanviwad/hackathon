@@ -1,7 +1,5 @@
 # 🌸 AI Journaling Companion
 
-### VIDEO LINK
-https://youtu.be/sjzOgu5E6Tw
 > *Your private, empathetic companion for meaningful self-reflection and personal growth*
 
 An intelligent journaling application that helps users track their emotional well-being through AI-powered insights, clarity tracking, and personalized reflection prompts.
